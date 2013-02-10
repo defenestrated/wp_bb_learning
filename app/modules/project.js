@@ -37,11 +37,9 @@ Project.Model = Backbone.Model.extend({
 
 
 	initialize: function() {
-		console.log("model initialized");
-		$.post("http://localhost/learning/wordpress/?json=get_page_index", function(data) {
-			console.log(data);
-			//you could do anything you want with the data here
-		});
+		var wp_object = this.get('wp_object');
+		
+		console.log('project "' + wp_object.slug + '" initialized');
 	}
 
 	
@@ -54,7 +52,11 @@ Project.Model = Backbone.Model.extend({
 
   // Default Collection.
   Project.Collection = Backbone.Collection.extend({
-	model: Project.Model
+	model: Project.Model,
+	
+	initialize: function() {
+		console.log("project collection initialized");
+	}
   });
 
   // Default View.  
