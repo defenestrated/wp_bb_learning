@@ -40,6 +40,8 @@ Project.Model = Backbone.Model.extend({
 		var wp_object = this.get('wp_object');
 		
 		console.log('project "' + wp_object.slug + '" initialized');
+		
+		// hup hey
 	}
 
 	
