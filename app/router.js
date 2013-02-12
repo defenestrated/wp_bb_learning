@@ -10,17 +10,32 @@ function(app, Project) {
 	var Router = Backbone.Router.extend({
 		
 		initialize: function () {
-		
-			Router.getPosts(function () {
-				// nothing needed here
-			});
-		
-			app.layouts.main = new Backbone.Layout({
-	  		template: "main",
-	  		el: "#main"
-			});
 			
-			app.layouts.main.render();
+			app.layouts.main = new Backbone.Layout({
+		  		template: "main",
+		  		el: "#main"
+	  		});
+	  		
+	  		app.layouts.main.render();
+	  		
+	  		
+	  		
+			console.log("router initializing...");
+			Router.getPosts(function (data) {
+				//console.log(data);
+				plib = new Project.Collection();
+				_.each(data.posts, function(post) {
+					plib.add({wp_object: post});
+				});
+				
+				
+				app.layouts.project = new Project.Views.Layout({});
+				app.layouts.main.setView(".content", app.layouts.project).render();
+				
+				
+			});
+		
+			
 		},
 		
 	routes: {
@@ -43,19 +58,17 @@ function(app, Project) {
 	
 	projects: function () {
 		console.log("you're on the project route");
-		app.layouts.main.setView(".content", app.layouts.project).render();
+		//app.layouts.main.setView(".content", app.layouts.project).render();
 	},
 	
 	loadData: function () {
 		console.log("sup, i'm the data function");
-		$.post("http://localhost/learning/wordpress/?json=get_page_index", function(data) {
-			console.log(data);
-			//you could do anything you want with the data here
-		});
 	},
 	
 	index: function() {
+		
 		console.log("heyyyyy! i'm the index function. i get called when the route is ''.");
+		
 	},
 	
 	splatter: function (splat) {
@@ -66,14 +79,27 @@ function(app, Project) {
 	});
   
 	Router.getPosts = function(callback) {
-		plib = new Project.Collection();
 		
-		$.post("http://localhost/learning/wordpress/?json=get_recent_posts&post_type=project&count=0", function(data) {
-			console.log(data);
-			_.each(data.posts, function(post) {
-				plib.add({wp_object: post});
+		var localcheck = document.URL.search("samgalison.com");
+		//console.log("url: " + document.URL + " - samgalison.com at pos. " + localcheck);
+		if (localcheck == -1) {
+			// we're not on the web
+			console.log("---- operating locally ----");
+			
+			$.post("http://localhost/learning/wordpress/?json=get_recent_posts&post_type=project&count=0", function(data) {
+				callback(data);
 			});
-		});
+		}
+		
+		else {
+			// we're live!
+			console.log("---- operating online ----");
+			
+			$.post("../wordpress/?json=get_recent_posts&post_type=project&count=0", function(data) {
+				callback(data);
+			});
+		}
+
 	};
 
   return Router;
