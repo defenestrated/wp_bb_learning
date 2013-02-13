@@ -82,7 +82,7 @@ function(app, Cartofolio) {
 
 	index: function() {
 
-		console.log("heyyyyy! i'm the index function. i get called when the route is ''.");
+		console.log("index route called.");
 
 	},
 
@@ -99,7 +99,7 @@ function(app, Cartofolio) {
 		//console.log("url: " + document.URL + " - samgalison.com at pos. " + localcheck);
 		if (localcheck == -1) {
 			// we're not on the web
-			console.log("---- get posts: operating locally ----");
+			console.log("==== get posts: operating locally ====");
 
 			$.post("http://localhost/learning/wordpress/?json=get_recent_posts&post_type=project&count=0", function(data) {
 				callback(data);
@@ -108,7 +108,7 @@ function(app, Cartofolio) {
 
 		else {
 			// we're live!
-			console.log("---- get posts: operating online ----");
+			console.log("==== get posts: operating online ====");
 
 			$.post("../wordpress/?json=get_recent_posts&post_type=project&count=0", function(data) {
 				callback(data);

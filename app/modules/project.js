@@ -38,7 +38,7 @@ function(app) {
 		initialize: function() {
 			var wp_object = this.get('wp_object');
 			
-			console.log('project "' + wp_object.slug + '" initialized.');
+			console.log('--- project "' + wp_object.slug + '" initialized. ---');
 			//console.log(wp_object);
 			
 			this.set({
@@ -78,7 +78,7 @@ function(app) {
 				
 		initialize: function() {
 			_.extend(this, Backbone.Events);		
-			console.log("project collection initialized - length: " + this.length);
+			console.log("--- project collection initialized - length: " + this.length + " ---");
 			
 		}
 		
@@ -99,7 +99,7 @@ function(app) {
 		manage: true,
 			    
 		initialize: function () {
-			console.log("single view created for " + this.model.get("title"));
+			console.log("--- single view initialized for " + this.model.get("title") + " ---");
 		}
 		
 	});
@@ -114,7 +114,7 @@ function(app) {
 		manage: true,
 		
 		initialize: function () {
-			console.log("---------projects list initialized.");
+			console.log("--- projects list initialized. ---");
 		}
 		
 		

@@ -30,40 +30,47 @@ function(app, Project) {
     template: "cartofolio",
 	className: "cartofolio_parchment",
 	tagName: "svg",
-	width: "100%",
-	height: "100%",
+	
+	projectgroup: {},
+	parchment: {},
 	w: $(this).width(),
 	h: $(this).height(),
 	firstRender: true,
 	sidebar: 100,
 	r: 20,
 	s: 2*this.r/150,
+	maptype: "random",
+	
+	padding: 7,
+	fadetime: 1000,
+	
 	
 	afterRender: function() {
       var cmp = this;
       if (this.firstRender) {
         this.firstRender = false;
         this.setup_d3();
-        //Cartofolio.projects.bind("all", this.d3_update);
+        Cartofolio.projects.bind("all", this.d3_update);
       }
     },
 	
+	
+	/* ------------------- cartofolio init --------------------- */
+	
 	initialize: function () {
 		_.bindAll(this);
-		var pg;
 		
 		console.log("cartofolio layout initialized.");
-		console.log(this);
 		
 		var projectsgroup;
 		
 		Cartofolio.projects.on("create", function (wrapper) {
 			console.log("cartfolio project created, wrapped with " + wrapper.tn + "." + wrapper.cn);
-			pg = new Project.Views.List({
+			projectgroup = new Project.Views.List({
 				className: wrapper.cn,
 				tagName: wrapper.tn
 			})
-			app.layouts.carto.insertView(pg);
+			app.layouts.carto.insertView(projectgroup);
 		});
 		
 		Cartofolio.projects.on("add", function(model) {
@@ -71,36 +78,33 @@ function(app, Project) {
 			console.log(model.attributes.title + " calling from on(add)");
 			
 			var item = new Project.Views.Item({model: model});
-			pg.insertView(item);
+			projectgroup.insertView(item);
 		});
 		
 	},
 	
-	setup_d3: function () { /* ------------------- D3 SETUP */
-		
-		
-				
-		
-		var maptype = "random";
-		
-		var x, y, xmin, xmax, ymin, ymax,
-			axes,
-			leader;
-		
-		var padding = 7;
-		
-		var fadetime = 1000;
-		
+	/* ----------------------- d3 setup ------------------------ */
+	setup_d3: function () {
+	
+		parchment = d3.select(".cartofolio_parchment");
 		this.setbuffer();
 		
+		console.log(Cartofolio.projects);
+		parchment.select(".projects").selectAll(".node")
+				.data(Cartofolio.projects.models)
+			.enter().append("text")
+				.attr("class", "node")
+				.text(function (d) {
+					return d.attributes.date + " |----| ";
+				});
 		/* ------------------- scales --------------------- */
 		
-		/*
-var format = d3.time.format("%m/%d/%y");
+		
+		var format = d3.time.format("%Y-%m-%d %H:%M:%S");
 		var formatDate = function(d) {
 			return format.parse( d.date );
 		}	
-		
+/*
 		var x = d3.time.scale()
 		        .domain(d3.extent(Cartofolio.projects, function(d) { return format.parse(d.date); }))
 		        .nice(d3.time.year)
@@ -110,6 +114,9 @@ var format = d3.time.format("%m/%d/%y");
 				.domain(d3.extent(Cartofolio.projects, function(d) { return d.hours; }))
 				.range([ymax, ymin])
 				.nice();
+*/		
+
+		
 		
 		var ux = function(x){
 			return (x)/s-75;
@@ -117,12 +124,12 @@ var format = d3.time.format("%m/%d/%y");
 		var uy = function(y){
 			return (y)/s-75;
 		}
-*/
+
 		
 		/* -------------------------------------------------- */
 		
 		
-		this.parchment = d3.select(".cartofolio_parchment");
+		
 	},
 	
 	setbuffer: function() {
