@@ -16,26 +16,32 @@ function(app, Cartofolio) {
 		  		el: "#main"
 	  		});
 
-	  		app.layouts.main.render();
+	  		
+	  		
+	  		app.numprojects = 0;
 
-
-			app.layouts.carto = new Cartofolio.Views.Layout({});
-			app.layouts.carto.render();
-			app.layouts.main.setView(".content", app.layouts.carto).render();
+			
+			
+			
 			
 
 			console.log("router initializing...");
 
-
+			
 			Router.getPosts(function (data) {
+				app.layouts.carto = new Cartofolio.Views.Layout({});
+				app.layouts.main.setView(".content", app.layouts.carto);
 				
 				_.each(data.posts, function(post) {
+					app.numprojects++;
 					Cartofolio.projects.add({wp_object: post});
 				});
 				
+			app.layouts.main.render();
+			
 			});
 
-
+			
 
 		},
 
@@ -85,7 +91,7 @@ function(app, Cartofolio) {
 		//console.log("url: " + document.URL + " - samgalison.com at pos. " + localcheck);
 		if (localcheck == -1) {
 			// we're not on the web
-			console.log("---- operating locally ----");
+			console.log("---- get posts: operating locally ----");
 
 			$.post("http://localhost/learning/wordpress/?json=get_recent_posts&post_type=project&count=0", function(data) {
 				callback(data);
@@ -94,7 +100,7 @@ function(app, Cartofolio) {
 
 		else {
 			// we're live!
-			console.log("---- operating online ----");
+			console.log("---- get posts: operating online ----");
 
 			$.post("../wordpress/?json=get_recent_posts&post_type=project&count=0", function(data) {
 				callback(data);

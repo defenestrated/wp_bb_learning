@@ -76,7 +76,7 @@ function(app) {
 		model: Project.Model,
 		
 		initialize: function() {
-			console.log("project collection initialized");
+			console.log("project collection initialized - length: " + this.length);
 			
 		}
 		
@@ -92,9 +92,11 @@ function(app) {
 	Project.Views.Item = Backbone.View.extend({
 		template: "project_single",
 		className: "solo",
+		model: Project.Model,
+		manage: true,
 			    
 		initialize: function () {
-			console.log("single view created for " + this.model.attributes.title);
+			console.log("single view created for " + this.model.get("title"));
 			var obj = d3.select("cartofolio_parchment")
 			.append("svg")
 				.attr("class", "projects");
@@ -107,6 +109,7 @@ function(app) {
 	
 	Project.Views.List = Backbone.View.extend({
 		className: "project_list",
+		el: ".content",
 	
 		beforeRender: function() {
 			var obj = this;
