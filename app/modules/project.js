@@ -38,7 +38,7 @@ function(app) {
 		initialize: function() {
 			var wp_object = this.get('wp_object');
 			
-			console.log('project "' + wp_object.slug + '" initialized:');
+			console.log('project "' + wp_object.slug + '" initialized.');
 			//console.log(wp_object);
 			
 			this.set({
@@ -60,8 +60,6 @@ function(app) {
 				
 			});
 			
-			console.log(this.attributes);
-			//new Project.Views.Item;
 			// hup hey
 		}
 	
@@ -86,43 +84,26 @@ function(app) {
 	});
 	
 	// Default View.  
+
+	Project.Views = {};
 	
-	var Views = {};
+	/* -------------------- single --------------------- */
 	
-	/* ------------------ single ------------------- */
-	
-	Views.Item = Backbone.View.extend({
-	
+	Project.Views.Item = Backbone.View.extend({
 		template: "project_single",
 		className: "solo",
 		
-		
 		initialize: function () {
-			console.log("single layout created");
-			this.model.on('change', this.render, this);
+			console.log("single view created for " + this.model.attributes.title);
 		}
 		
 	});
 	
 	
-	/* -------------------- list -------------------- */
-	
-	Views.List = Backbone.View.extend({
-		
-		className: "list",
-		
-		initialize: function () {
-			console.log("list view added");
-		}
-	});
+	/* -------------------- layout ---------------------- */
 	
 	Project.Views.Layout = Backbone.Layout.extend({
-		template: "project",
-		className: "projects",
 		
-		initialize: function () {
-			console.log("initialized project view layout");
-		}
 	});
 	
 	
