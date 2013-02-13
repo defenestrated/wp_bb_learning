@@ -31,13 +31,21 @@ function(app, Cartofolio) {
 			Router.getPosts(function (data) {
 				app.layouts.carto = new Cartofolio.Views.Layout({});
 				app.layouts.main.setView(".content", app.layouts.carto);
+				app.layouts.main.render();
+				
+				var wrapper = {
+					cn: "projects",
+					tn: "g"
+				};
+				
+				Cartofolio.projects.trigger("create", wrapper);
 				
 				_.each(data.posts, function(post) {
 					app.numprojects++;
 					Cartofolio.projects.add({wp_object: post});
 				});
 				
-			app.layouts.main.render();
+			
 			
 			});
 

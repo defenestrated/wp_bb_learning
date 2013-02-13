@@ -75,7 +75,9 @@ function(app) {
 	Project.Collection = Backbone.Collection.extend({
 		model: Project.Model,
 		
+				
 		initialize: function() {
+			_.extend(this, Backbone.Events);		
 			console.log("project collection initialized - length: " + this.length);
 			
 		}
@@ -92,14 +94,12 @@ function(app) {
 	Project.Views.Item = Backbone.View.extend({
 		template: "project_single",
 		className: "solo",
+		tagName: "g", 
 		model: Project.Model,
 		manage: true,
 			    
 		initialize: function () {
 			console.log("single view created for " + this.model.get("title"));
-			var obj = d3.select("cartofolio_parchment")
-			.append("svg")
-				.attr("class", "projects");
 		}
 		
 	});
@@ -108,26 +108,13 @@ function(app) {
 	
 	
 	Project.Views.List = Backbone.View.extend({
-		className: "project_list",
-		el: ".content",
-	
-		beforeRender: function() {
-			var obj = this;
-			var count = 0;
-			console.log("--------");
-			console.log(obj);
-			console.log("--------");
-			Cartofolio.projects.each(function(item) {
-				obj.insertView(new Project.Views.Item({
-					model: item,
-					id: count
-				}));
-				count++;
-			}, obj);
-		},
+		template: "project_group",
+		tagName: "",
+		className: "",
+		manage: true,
 		
 		initialize: function () {
-			var obj = this;
+			console.log("---------projects list initialized.");
 		}
 		
 		
