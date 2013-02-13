@@ -20,6 +20,7 @@ function(app, Cartofolio) {
 
 
 			app.layouts.carto = new Cartofolio.Views.Layout({});
+			app.layouts.carto.render();
 			app.layouts.main.setView(".content", app.layouts.carto).render();
 			
 

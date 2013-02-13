@@ -1,5 +1,7 @@
 define([
-  "backbone.layoutmanager"
+  "backbone.layoutmanager",
+  "plugins/d3",
+  "plugins/modernizr"
 ], function() {
 
   // Provide a global location to place configuration settings and module

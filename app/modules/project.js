@@ -92,12 +92,46 @@ function(app) {
 	Project.Views.Item = Backbone.View.extend({
 		template: "project_single",
 		className: "solo",
-		
+			    
 		initialize: function () {
 			console.log("single view created for " + this.model.attributes.title);
+			var obj = d3.select("cartofolio_parchment")
+			.append("svg")
+				.attr("class", "projects");
 		}
 		
 	});
+	
+	/* --------------------- list ----------------------- */
+	
+	
+	Project.Views.List = Backbone.View.extend({
+		className: "project_list",
+	
+		beforeRender: function() {
+			var obj = this;
+			var count = 0;
+			console.log("--------");
+			console.log(obj);
+			console.log("--------");
+			Cartofolio.projects.each(function(item) {
+				obj.insertView(new Project.Views.Item({
+					model: item,
+					id: count
+				}));
+				count++;
+			}, obj);
+		},
+		
+		initialize: function () {
+			var obj = this;
+		}
+		
+		
+	});
+	
+	
+	/* -------------------------------------------------- */
 	
 	
 	/* -------------------- layout ---------------------- */
@@ -107,8 +141,6 @@ function(app) {
 	});
 	
 	
-  
-  
 	
 	
 	// Return the module for AMD compliance.
