@@ -35,15 +35,29 @@ g.node {
 
 /* links */
 
-.link {
+g.link {
 	cursor: pointer;
+}
+
+ellipse.link {
+	fill: rgba(255,255,255,0);
+	transition: all .2s;
+	-moz-transition: all .2s;
+	-webkit-transition: all .2s;
+	-o-transition: all .2s;
+}
+
+g.link:hover ellipse.link{
+	fill: red;
 }
 
 text.link {
 	font: 8pt "Menlo", "Consolas", "Lucida Console", "Courier", monospace;
 	text-anchor: middle;
-	dy: .35em;
+	baseline-shift: -30%;
 }
+
+
 
 
 

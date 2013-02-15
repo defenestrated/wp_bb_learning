@@ -50,7 +50,11 @@ function(app, Project) {
 	format: '', // to hold date formatting
 	
 	events: {
-		"click circle#test": "test"
+		"click #test" : "test",
+		"click #hours" : "hours",
+		"click #dimensions" : "dimensions",
+		"click #children" : "children",
+		"click #scramble" : "scramble"
 	},
 	
 	
@@ -91,9 +95,9 @@ function(app, Project) {
 		
 	},
 	
-	test: function () { console.log("works!"); },
-	
+
 	/* ----------------------- d3 setup ------------------------ */
+	
 	setup_d3: function () {
 		var lay = this;
 		lay.format = d3.time.format("%Y-%m-%d %H:%M:%S");
@@ -118,54 +122,157 @@ function(app, Project) {
 		}));
 		// var sorted = _(Cartofolio.projects.models).sortBy(function(model){ return model.get("hours") });
 		// ^^ this is how you sort with underscore
-
-		var testbutton = this.parchment.append("g")
-				.attr("class", "controls");
-				
-		testbutton.append("circle")
+		
+		
+		/* ----------------- test button ----------------- */
+		
+		var Btest = this.parchment.append("g")
+				.attr("class", "link");
+		
+		Btest.append("text") // button text
 				.attr("class", "link")
 				.attr("id", "test")
-				.attr("r", lay.bR)
-				.attr("cx", lay.w-lay.bR*2)
-				.attr("cy", lay.bR*2)
+				.text("test")
+				.attr("x", lay.w-lay.sidebar);
+
+		Btest.select("text#test").attr("y", this.parchment.selectAll("text.link")[0].length*40);
+		
+		Btest.insert("ellipse", "text") //background circle
+				.attr("class", "link")
+				.attr("id", "test")
+				.attr("rx", function () { return Btest.select("text")[0][0].clientWidth*3/4; })
+				.attr("ry", 20)
+				.attr("cx", lay.w-lay.sidebar)
+				.attr("cy", this.parchment.selectAll("text.link")[0].length*40)
 				.attr("stroke", "black")
-				.attr("fill", "rgba(0,0,0,0)")
 				.attr("stroke-width", "2pt");
-		testbutton.append("text")
+		
+		/* ----------------- hour button ----------------- */
+		
+		var Bhours = this.parchment.append("g")
+				.attr("class", "link");
+		
+		Bhours.append("text") // button text
 				.attr("class", "link")
-				.attr("id", "test")
-				.text("test!")
-				.attr("x", lay.w-lay.bR*2)
-				.attr("y", lay.bR*2)
-				.attr("dy", ".35em");
+				.attr("id", "hours")
+				.text("hours")
+				.attr("x", lay.w-lay.sidebar);
 
-		this.parchment.selectAll(".node")
+		Bhours.select("text#hours").attr("y", this.parchment.selectAll("text.link")[0].length*40);
+		
+		Bhours.insert("ellipse", "text") //background circle
+				.attr("class", "link")
+				.attr("id", "hours")
+				.attr("rx", function () { return Bhours.select("text")[0][0].clientWidth*3/4; })
+				.attr("ry", 20)
+				.attr("cx", lay.w-lay.sidebar)
+				.attr("cy", this.parchment.selectAll("text.link")[0].length*40)
+				.attr("stroke", "black")
+				.attr("stroke-width", "2pt");
+				
+		/* ---------------- dims button  ----------------- */		
+				
+				
+		var Bdimensions = this.parchment.append("g")
+				.attr("class", "link");
+		
+		Bdimensions.append("text") // button text
+				.attr("class", "link")
+				.attr("id", "dimensions")
+				.text("dimensions")
+				.attr("x", lay.w-lay.sidebar);
+
+		Bdimensions.select("text#dimensions").attr("y", this.parchment.selectAll("text.link")[0].length*40);
+		
+		Bdimensions.insert("ellipse", "text") //background circle
+				.attr("class", "link")
+				.attr("id", "dimensions")
+				.attr("rx", function () { return Bdimensions.select("text")[0][0].clientWidth*3/4; })
+				.attr("ry", 20)
+				.attr("cx", lay.w-lay.sidebar)
+				.attr("cy", this.parchment.selectAll("text.link")[0].length*40)
+				.attr("stroke", "black")
+				.attr("stroke-width", "2pt");		
+				
+				
+		/* -------------- children button ---------------- */		
+				
+				
+		var Bchildren = this.parchment.append("g")
+				.attr("class", "link");
+		
+		Bchildren.append("text") // button text
+				.attr("class", "link")
+				.attr("id", "children")
+				.text("children")
+				.attr("x", lay.w-lay.sidebar);
+
+		Bchildren.select("text#children").attr("y", this.parchment.selectAll("text.link")[0].length*40);
+		
+		Bchildren.insert("ellipse", "text") //background circle
+				.attr("class", "link")
+				.attr("id", "children")
+				.attr("rx", function () { return Bchildren.select("text")[0][0].clientWidth*3/4; })
+				.attr("ry", 20)
+				.attr("cx", lay.w-lay.sidebar)
+				.attr("cy", this.parchment.selectAll("text.link")[0].length*40)
+				.attr("stroke", "black")
+				.attr("stroke-width", "2pt");	
+		
+		/* -------------- scramble button ---------------- */		
+				
+				
+		var Bscramble = this.parchment.append("g")
+				.attr("class", "link");
+		
+		Bscramble.append("text") // button text
+				.attr("class", "link")
+				.attr("id", "scramble")
+				.text("scramble")
+				.attr("x", lay.w-lay.sidebar);
+
+		Bscramble.select("text#scramble").attr("y", this.parchment.selectAll("text.link")[0].length*40);
+		
+		Bscramble.insert("ellipse", "text") //background circle
+				.attr("class", "link")
+				.attr("id", "scramble")
+				.attr("rx", function () { return Bscramble.select("text")[0][0].clientWidth*3/4; })
+				.attr("ry", 20)
+				.attr("cx", lay.w-lay.sidebar)
+				.attr("cy", this.parchment.selectAll("text.link")[0].length*40)
+				.attr("stroke", "black")
+				.attr("stroke-width", "2pt");
+				
+						
+		/* ----------------     nodes     ----------------- */	
+
+		this.nodes = this.parchment.selectAll(".node")
 				.data(Cartofolio.elders.models)
 			.enter().append("text")
 				.attr("class", "node")
-				.attr("x", 60)
-				.attr("y", function (d) { return d.get("hours"); })
-				.attr("width", 100)
-				.attr("height", 50)
+				.attr("x",10)
+				.attr("y",10)
 				.text(function (d) { return d.get("title"); })
 				.attr("fill", function (d) {
 					var c = d.get("hours")*2;
 					return "rgb("+c+","+c+","+c+")";
 				});
+				
+				
 		/* ------------------- scales --------------------- */
 		
 		
-/*
-		lay.x = d3.time.scale()
+		/*
+lay.x = d3.time.scale()
 		        .domain(d3.extent(Cartofolio.projects.models, function(d) { return lay.format.parse(d.get("date")); }))
 		        .nice(d3.time.year)
-		        .range([xmin, xmax]);
+		        .range([lay.xmin, lay.xmax]);
 		
 		lay.y = d3.scale.linear()
 				.domain(d3.extent(Cartofolio.projects.models, function(d) {
 					return d.get("hours");
 				}))
-				.range([ymax, ymin])
+				.range([lay.ymax, lay.ymin])
 				.nice();
 */
 	
@@ -182,9 +289,47 @@ function(app, Project) {
 		
 		/* -------------------------------------------------- */
 		
+	}, // end d3_setup
+	
+		/* ------------------ sorting fn's ------------------ */
 		
-		
+	test: function () { console.log("testing"); },
+
+	hours: function () { 
+		console.log("sorting by hours");
+		this.nodes
+			.transition(1000)
+			.attr("x", 60)
+			.attr("y", function (d) { return d.get("hours"); });
 	},
+	
+	dimensions: function () { 
+		console.log("sorting by dimensions");
+		this.nodes
+			.transition(1000)
+			.attr("x", 60)
+			.attr("y", function (d) { return d.get("dimensions")*10; });
+	},
+	
+	children: function () { 
+		console.log("sorting by # of children");
+		this.nodes
+			.transition(1000)
+			.attr("x", 60)
+			.attr("y", function (d) { return (d.get("children").length*10+50 > 50) ? 
+					d.get("children").length*10+50 : 50; });
+	},
+	
+	scramble: function () {
+		var lay = this;
+		console.log("scrambling");
+		this.nodes
+			.transition(1000)
+			.attr("x", function () { return Math.floor(Math.random()*($(window).width()-300-lay.sidebar))+150 })
+			.attr("y", function () { return Math.floor(Math.random()*($(window).height()-300))+150 });
+	},
+		
+		/* -------------------------------------------------- */
 	
 	setbuffer: function() {
 		w = $(window).width();
