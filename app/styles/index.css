@@ -1,15 +1,29 @@
 /*-- HTML5 Boilerplate. -----------------------------------------------------*/
 
+/*
 @import "../../vendor/h5bp/css/normalize.css";
 @import "../../vendor/h5bp/css/main.css";
+*/
 
 /*-- Application stylesheets. -----------------------------------------------*/
 
-.cartofolio_parchment {
+.content {
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
 	background: rgba(253,255,213,1);
+}
+
+svg.projects {
+	position: absolute;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+}
+
+g.node {
+	position: absolute;
 }

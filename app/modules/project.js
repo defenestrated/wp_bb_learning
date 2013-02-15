@@ -18,6 +18,8 @@ function(app) {
 		defaults: {
 			type: 'default post_type',
 			id: 0,
+			parent: 0,
+			children: 0,
 			title: "default title",
 			excerpt: "default excerpt",
 			content: "default content",
@@ -25,18 +27,17 @@ function(app) {
 			images: "default images",
 	
 			date: "default date",
-			hours: "default hours",
+			hours: 0,
 			materials: "default materials",
 			techniques: "default techniques",
-			dimensions: "default dims",
-			scale: "default scale",
+			dimensions: 0,
+			scale: 0,
 			reasons: "default reasons"
 		},
 	
 	
 	
-		initialize: function() {
-			var wp_object = this.get('wp_object');
+		initialize: function(wp_object) {
 			
 			console.log('--- project "' + wp_object.slug + '" initialized. ---');
 			//console.log(wp_object);
@@ -44,6 +45,8 @@ function(app) {
 			this.set({
 				type: wp_object.type,
 				id: wp_object.id,
+				parent: wp_object.parent,
+				children: wp_object.children,
 				title: wp_object.title,
 				excerpt: wp_object.excerpt,
 				content: wp_object.content,
@@ -74,13 +77,13 @@ function(app) {
 	// Default Collection.
 	Project.Collection = Backbone.Collection.extend({
 		model: Project.Model,
-		
-				
-		initialize: function() {
-			_.extend(this, Backbone.Events);		
-			console.log("--- project collection initialized - length: " + this.length + " ---");
-			
+						
+		initialize: function(models, options) {
+			_.extend(this, Backbone.Events);
+			console.log("--- project collection initialized: " + options.name + " ---");
 		}
+		
+		
 		
 		
 	});
@@ -99,7 +102,7 @@ function(app) {
 		manage: true,
 			    
 		initialize: function () {
-			console.log("--- single view initialized for " + this.model.get("title") + " ---");
+			console.log("--- single view initialized for " + this.model.get("slug") + " ---");
 		}
 		
 	});

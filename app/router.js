@@ -38,11 +38,11 @@ function(app, Cartofolio) {
 					tn: "g"
 				};
 				
-				Cartofolio.projects.trigger("create", wrapper);
+				Cartofolio.projects.trigger("createView", wrapper);
 				
 				_.each(data.posts, function(post) {
 					app.numprojects++;
-					Cartofolio.projects.add({wp_object: post});
+					Cartofolio.projects.add(post);
 				});
 				
 			

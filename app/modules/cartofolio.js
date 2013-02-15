@@ -17,7 +17,8 @@ function(app, Project) {
   
   });
   
-  Cartofolio.projects = new Project.Collection();
+  Cartofolio.projects = new Project.Collection({}, {name: "all projects"});
+
   
 
   // Default View.
@@ -29,12 +30,13 @@ function(app, Project) {
   
     template: "cartofolio",
 	className: "cartofolio_parchment",
-	tagName: "svg",
+	
 	
 	projectgroup: {},
 	parchment: {},
 	w: $(this).width(),
 	h: $(this).height(),
+	x: '', y: '', ux: '', uy: '', xmin: '', ymin: '', xmax: '', ymax: '', axes: '', leader: '',
 	firstRender: true,
 	sidebar: 100,
 	r: 20,
@@ -44,9 +46,12 @@ function(app, Project) {
 	padding: 7,
 	fadetime: 1000,
 	
+	somevar: '',
+	
+	format: '',
+	
 	
 	afterRender: function() {
-      var cmp = this;
       if (this.firstRender) {
         this.firstRender = false;
         this.setup_d3();
@@ -64,7 +69,7 @@ function(app, Project) {
 		
 		var projectsgroup;
 		
-		Cartofolio.projects.on("create", function (wrapper) {
+		Cartofolio.projects.on("createView", function (wrapper) {
 			console.log("cartfolio project created, wrapped with " + wrapper.tn + "." + wrapper.cn);
 			projectgroup = new Project.Views.List({
 				className: wrapper.cn,
@@ -74,55 +79,77 @@ function(app, Project) {
 		});
 		
 		Cartofolio.projects.on("add", function(model) {
-				
-			console.log(model.attributes.title + " calling from on(add)");
 			
 			var item = new Project.Views.Item({model: model});
 			projectgroup.insertView(item);
+			
 		});
 		
 	},
 	
 	/* ----------------------- d3 setup ------------------------ */
 	setup_d3: function () {
-	
-		parchment = d3.select(".cartofolio_parchment");
-		this.setbuffer();
+		var lay = this;
+		lay.format = d3.time.format("%Y-%m-%d %H:%M:%S");
 		
-		console.log(Cartofolio.projects);
-		parchment.select(".projects").selectAll(".node")
-				.data(Cartofolio.projects.models)
+		
+		
+		this.parchment = d3.select(".cartofolio_wrapper").append("svg")
+			.attr("width", "100%")
+			.attr("height", "100%")
+			;
+		lay.setbuffer();
+				
+/* 		_.each(Cartofolio.projects, function(element, index, list) { console.log(list.at(index).attributes) }); */
+		Cartofolio.elders = new Project.Collection (_(Cartofolio.projects.models).filter(function (model) {
+			return model.get("parent") == 0;
+		}), {name:"elder projects only"});
+		
+		console.log(Cartofolio.elders);
+		console.log(_(Cartofolio.elders.models).map(function (model) {
+			return model.get("title");
+		}));
+		// var sorted = _(Cartofolio.projects.models).sortBy(function(model){ return model.get("hours") });
+		// ^^ this is how you sort with underscore
+		
+		this.parchment.selectAll(".node")
+				.data(Cartofolio.elders.models)
 			.enter().append("text")
 				.attr("class", "node")
-				.text(function (d) {
-					return d.attributes.date + " |----| ";
+				.attr("x", 60)
+				.attr("y", function (d) { return d.get("hours"); })
+				.attr("width", 100)
+				.attr("height", 50)
+				.text(function (d) { return d.get("title"); })
+				.attr("fill", function (d) {
+					var c = d.get("hours")*3;
+					return "rgb("+c+","+c+","+c+")";
 				});
 		/* ------------------- scales --------------------- */
 		
 		
-		var format = d3.time.format("%Y-%m-%d %H:%M:%S");
-		var formatDate = function(d) {
-			return format.parse( d.date );
-		}	
 /*
-		var x = d3.time.scale()
-		        .domain(d3.extent(Cartofolio.projects, function(d) { return format.parse(d.date); }))
+		lay.x = d3.time.scale()
+		        .domain(d3.extent(Cartofolio.projects.models, function(d) { return lay.format.parse(d.get("date")); }))
 		        .nice(d3.time.year)
 		        .range([xmin, xmax]);
 		
-		var y = d3.scale.linear()
-				.domain(d3.extent(Cartofolio.projects, function(d) { return d.hours; }))
+		lay.y = d3.scale.linear()
+				.domain(d3.extent(Cartofolio.projects.models, function(d) {
+					return d.get("hours");
+				}))
 				.range([ymax, ymin])
 				.nice();
-*/		
+*/
+	
 
 		
 		
-		var ux = function(x){
-			return (x)/s-75;
+		lay.ux = function(x){
+			return (x)/lay.s-75;
 		}
-		var uy = function(y){
-			return (y)/s-75;
+		lay.uy = function(y){
+			return (y)/lay.s-75;
 		}
 
 		
