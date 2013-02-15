@@ -7,6 +7,11 @@
 
 /*-- Application stylesheets. -----------------------------------------------*/
 
+
+
+
+/* -------------   svg   --------------- */
+
 .content {
 	position: absolute;
 	top: 0;
@@ -27,3 +32,28 @@ svg.projects {
 g.node {
 	position: absolute;
 }
+
+/* links */
+
+.link {
+	cursor: pointer;
+}
+
+text.link {
+	font: 8pt "Menlo", "Consolas", "Lucida Console", "Courier", monospace;
+	text-anchor: middle;
+	dy: .35em;
+}
+
+
+
+/* ------------- controls -------------- */
+
+.controls {
+	position: absolute;
+	right: 0;
+	text-align: center;
+	width: 200px;
+	top: 0;
+}
+

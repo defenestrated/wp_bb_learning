@@ -34,9 +34,7 @@ function(app, Project) {
 	
 	projectgroup: {},
 	parchment: {},
-	w: $(this).width(),
-	h: $(this).height(),
-	x: '', y: '', ux: '', uy: '', xmin: '', ymin: '', xmax: '', ymax: '', axes: '', leader: '',
+	w: '', h: '', x: '', y: '', ux: '', uy: '', xmin: '', ymin: '', xmax: '', ymax: '', axes: '', leader: '',
 	firstRender: true,
 	sidebar: 100,
 	r: 20,
@@ -46,9 +44,14 @@ function(app, Project) {
 	padding: 7,
 	fadetime: 1000,
 	
-	somevar: '',
+	bR: 30, // button radius
 	
-	format: '',
+	
+	format: '', // to hold date formatting
+	
+	events: {
+		"click circle#test": "test"
+	},
 	
 	
 	afterRender: function() {
@@ -76,6 +79,7 @@ function(app, Project) {
 				tagName: wrapper.tn
 			})
 			app.layouts.carto.insertView(projectgroup);
+
 		});
 		
 		Cartofolio.projects.on("add", function(model) {
@@ -87,12 +91,15 @@ function(app, Project) {
 		
 	},
 	
+	test: function () { console.log("works!"); },
+	
 	/* ----------------------- d3 setup ------------------------ */
 	setup_d3: function () {
 		var lay = this;
 		lay.format = d3.time.format("%Y-%m-%d %H:%M:%S");
 		
-		
+		lay.w = $(window).width();
+		lay.h = $(window).height();
 		
 		this.parchment = d3.select(".cartofolio_wrapper").append("svg")
 			.attr("width", "100%")
@@ -111,7 +118,27 @@ function(app, Project) {
 		}));
 		// var sorted = _(Cartofolio.projects.models).sortBy(function(model){ return model.get("hours") });
 		// ^^ this is how you sort with underscore
-		
+
+		var testbutton = this.parchment.append("g")
+				.attr("class", "controls");
+				
+		testbutton.append("circle")
+				.attr("class", "link")
+				.attr("id", "test")
+				.attr("r", lay.bR)
+				.attr("cx", lay.w-lay.bR*2)
+				.attr("cy", lay.bR*2)
+				.attr("stroke", "black")
+				.attr("fill", "rgba(0,0,0,0)")
+				.attr("stroke-width", "2pt");
+		testbutton.append("text")
+				.attr("class", "link")
+				.attr("id", "test")
+				.text("test!")
+				.attr("x", lay.w-lay.bR*2)
+				.attr("y", lay.bR*2)
+				.attr("dy", ".35em");
+
 		this.parchment.selectAll(".node")
 				.data(Cartofolio.elders.models)
 			.enter().append("text")
@@ -122,7 +149,7 @@ function(app, Project) {
 				.attr("height", 50)
 				.text(function (d) { return d.get("title"); })
 				.attr("fill", function (d) {
-					var c = d.get("hours")*3;
+					var c = d.get("hours")*2;
 					return "rgb("+c+","+c+","+c+")";
 				});
 		/* ------------------- scales --------------------- */
