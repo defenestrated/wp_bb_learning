@@ -39,7 +39,7 @@ function(app) {
 	
 		initialize: function(wp_object) {
 			
-			console.log('--- project "' + wp_object.slug + '" initialized. ---');
+			//console.log('--- project "' + wp_object.slug + '" initialized. ---');
 			//console.log(wp_object);
 			
 			this.set({
@@ -80,7 +80,7 @@ function(app) {
 						
 		initialize: function(models, options) {
 			_.extend(this, Backbone.Events);
-			console.log("--- project collection initialized: " + options.name + " ---");
+			//console.log("--- project collection initialized: " + options.name + " ---");
 		}
 		
 		
@@ -102,7 +102,7 @@ function(app) {
 		manage: true,
 			    
 		initialize: function () {
-			console.log("--- single view initialized for " + this.model.get("slug") + " ---");
+		//	console.log("--- single view initialized for " + this.model.get("slug") + " ---");
 		}
 		
 	});
@@ -117,7 +117,7 @@ function(app) {
 		manage: true,
 		
 		initialize: function () {
-			console.log("--- projects list initialized. ---");
+			//console.log("--- projects list initialized. ---");
 		}
 		
 		

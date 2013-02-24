@@ -18,7 +18,6 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(253,255,213,1);
 }
 
 svg.projects {
@@ -31,6 +30,10 @@ svg.projects {
 
 g.node {
 	position: absolute;
+}
+
+g.node:hover circle.orbcircle {
+	fill: rgba(255,255,0,1);
 }
 
 /* links */
@@ -47,6 +50,15 @@ ellipse.link {
 	-o-transition: all .2s;
 }
 
+circle.orbcircle {
+	fill: rgba(255,255,255,0.5);
+	stroke: black;
+	stroke-width: 2pt;
+	transition: all .5s;
+	-moz-transition: all .5s;
+	-webkit-transition: all .5s;
+	-o-transition: all .5s;
+}
 g.link:hover ellipse.link{
 	fill: red;
 }
